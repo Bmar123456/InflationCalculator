@@ -6,31 +6,129 @@ An interactive inflation adjustment calculator designed to show you how inflatio
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>InflationScope - Sleek Inflation & Salary Growth Calculator</title>
-  <!-- Tailwind CSS 3.4.17 -->
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  
+  <!-- Pre-configure Tailwind darkMode strategy before loading CDN -->
   <script>
-    tailwind.config = {
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
             sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
             mono: ['JetBrains Mono', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
-          },
-          colors: {
-            brand: {
-              50: '#f0fdf4',
-              100: '#dcfce7',
-              400: '#4ade80',
-              500: '#22c55e',
-              600: '#16a34a'
-            }
           }
         }
       }
     };
   </script>
+  <!-- Tailwind CSS 3.4.17 -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  
   <style>
+    /* CSS Variables for 100% Reliable, Fail-Safe Theme Styling */
+    :root {
+      /* Dark Theme Default */
+      --bg-page: #020617;
+      --bg-header: rgba(15, 23, 42, 0.85);
+      --bg-card: rgba(15, 23, 42, 0.75);
+      --bg-card-solid: #0f172a;
+      --bg-card-hover: #1e293b;
+      --bg-input: #020617;
+      --bg-subcard: rgba(2, 6, 23, 0.65);
+      --bg-pill: rgba(30, 41, 59, 0.7);
+      --bg-pill-hover: rgba(51, 65, 85, 0.8);
+      
+      --border-main: #1e293b;
+      --border-subtle: rgba(51, 65, 85, 0.6);
+      --border-input: #334155;
+      
+      --text-heading: #f8fafc;
+      --text-body: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --impact-devalue-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 60%, rgba(76, 5, 25, 0.25) 100%);
+      --impact-keep-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 60%, rgba(8, 47, 73, 0.25) 100%);
+      --slider-track: #334155;
+    }
+
+    html:not(.dark) {
+      /* Light Theme */
+      --bg-page: #f8fafc;
+      --bg-header: rgba(255, 255, 255, 0.88);
+      --bg-card: #ffffff;
+      --bg-card-solid: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-input: #f8fafc;
+      --bg-subcard: #f8fafc;
+      --bg-pill: #f1f5f9;
+      --bg-pill-hover: #e2e8f0;
+      
+      --border-main: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --border-input: #cbd5e1;
+      
+      --text-heading: #0f172a;
+      --text-body: #334155;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      
+      --impact-devalue-bg: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%);
+      --impact-keep-bg: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+      --slider-track: #cbd5e1;
+    }
+
+    /* Base Applied Variables */
+    body {
+      background-color: var(--bg-page) !important;
+      color: var(--text-body) !important;
+    }
+
+    .theme-header {
+      background-color: var(--bg-header) !important;
+      border-color: var(--border-main) !important;
+    }
+
+    .theme-card {
+      background-color: var(--bg-card) !important;
+      border-color: var(--border-main) !important;
+    }
+
+    .theme-subcard {
+      background-color: var(--bg-subcard) !important;
+      border-color: var(--border-main) !important;
+    }
+
+    .theme-input {
+      background-color: var(--bg-input) !important;
+      border-color: var(--border-input) !important;
+      color: var(--text-heading) !important;
+    }
+
+    .theme-pill {
+      background-color: var(--bg-pill) !important;
+      border-color: var(--border-subtle) !important;
+      color: var(--text-muted) !important;
+    }
+
+    .theme-pill:hover {
+      background-color: var(--bg-pill-hover) !important;
+      color: var(--text-heading) !important;
+    }
+
+    .theme-heading {
+      color: var(--text-heading) !important;
+    }
+
+    .theme-muted {
+      color: var(--text-muted) !important;
+    }
+
+    .theme-dim {
+      color: var(--text-dim) !important;
+    }
+
     /* Range Slider Styling */
     input[type=range] {
       -webkit-appearance: none;
@@ -55,9 +153,6 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       margin-top: -8px;
       transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
     }
-    .dark input[type=range]::-webkit-slider-thumb {
-      border-color: #0f172a;
-    }
     html:not(.dark) input[type=range]::-webkit-slider-thumb {
       border-color: #ffffff;
       box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
@@ -76,7 +171,6 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       cursor: pointer;
       border-radius: 9999px;
     }
-    /* Firefox */
     input[type=range]::-moz-range-thumb {
       height: 22px;
       width: 22px;
@@ -94,10 +188,10 @@ An interactive inflation adjustment calculator designed to show you how inflatio
     }
   </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white transition-colors duration-300">
+<body class="min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white transition-colors duration-200">
 
   <!-- Navigation / Header -->
-  <header class="border-b border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md sticky top-0 z-40 transition-colors duration-300">
+  <header class="theme-header border-b backdrop-blur-md sticky top-0 z-40 transition-colors duration-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-sky-500/20">
@@ -107,28 +201,28 @@ An interactive inflation adjustment calculator designed to show you how inflatio
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-base font-bold text-slate-900 dark:text-white tracking-tight">InflationScope</h1>
-            <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">Interactive Calculator</span>
+            <h1 class="text-base font-bold theme-heading tracking-tight">InflationScope</h1>
+            <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">Interactive Tool</span>
           </div>
-          <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Purchasing Power Analysis & Target Compensation Modeler</p>
+          <p class="text-xs theme-muted hidden sm:block">Purchasing Power Analysis & Target Compensation Modeler</p>
         </div>
       </div>
 
-      <!-- Controls: Method Toggle & Reset -->
+      <!-- Controls: Theme Toggle & Reset -->
       <div class="flex items-center space-x-2 sm:space-x-3">
-        <button id="themeToggleBtn" type="button" aria-label="Toggle theme" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700/60 shadow-sm">
+        <button id="themeToggleBtn" type="button" aria-label="Toggle theme" class="theme-pill p-2 rounded-lg border transition shadow-sm">
           <!-- Moon Icon (shown in dark) -->
-          <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="moonIcon" class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
           <!-- Sun Icon (hidden in dark) -->
-          <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="sunIcon" class="w-4 h-4 text-amber-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
           </svg>
         </button>
 
-        <button id="resetBtn" type="button" class="text-xs font-medium px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition border border-slate-300 dark:border-slate-700/60 flex items-center gap-1.5 shadow-sm">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button id="resetBtn" type="button" class="theme-pill text-xs font-medium px-3 py-2 rounded-lg border transition flex items-center gap-1.5 shadow-sm">
+          <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
           Reset
@@ -142,17 +236,17 @@ An interactive inflation adjustment calculator designed to show you how inflatio
 
     <!-- Scenarios Quick Bar -->
     <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
-      <span class="text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">Quick Scenarios:</span>
-      <button type="button" class="scenario-btn px-2.5 py-1 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-sky-400 dark:hover:border-sky-500 transition whitespace-nowrap" data-salary="75000" data-rate="3.1">
+      <span class="theme-muted font-medium whitespace-nowrap">Quick Scenarios:</span>
+      <button type="button" class="scenario-btn theme-pill px-2.5 py-1 rounded-full border transition whitespace-nowrap" data-salary="75000" data-rate="3.1">
         Moderate / US Median ($75k @ 3.1%)
       </button>
-      <button type="button" class="scenario-btn px-2.5 py-1 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-sky-400 dark:hover:border-sky-500 transition whitespace-nowrap" data-salary="100000" data-rate="4.5">
+      <button type="button" class="scenario-btn theme-pill px-2.5 py-1 rounded-full border transition whitespace-nowrap" data-salary="100000" data-rate="4.5">
         Current Baseline ($100k @ 4.5%)
       </button>
-      <button type="button" class="scenario-btn px-2.5 py-1 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-sky-400 dark:hover:border-sky-500 transition whitespace-nowrap" data-salary="140000" data-rate="6.5">
+      <button type="button" class="scenario-btn theme-pill px-2.5 py-1 rounded-full border transition whitespace-nowrap" data-salary="140000" data-rate="6.5">
         High Inflation Wave ($140k @ 6.5%)
       </button>
-      <button type="button" class="scenario-btn px-2.5 py-1 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-sky-400 dark:hover:border-sky-500 transition whitespace-nowrap" data-salary="60000" data-rate="2.0">
+      <button type="button" class="scenario-btn theme-pill px-2.5 py-1 rounded-full border transition whitespace-nowrap" data-salary="60000" data-rate="2.0">
         Low Fed Target ($60k @ 2.0%)
       </button>
     </div>
@@ -161,16 +255,16 @@ An interactive inflation adjustment calculator designed to show you how inflatio
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
       
       <!-- Input Card 1: Dollar Baseline -->
-      <div class="lg:col-span-5 bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-md dark:shadow-xl backdrop-blur-sm flex flex-col justify-between transition-colors duration-300">
+      <div class="lg:col-span-5 theme-card border rounded-2xl p-6 shadow-xl backdrop-blur-sm flex flex-col justify-between transition-colors duration-200">
         <div>
           <div class="flex items-center justify-between mb-2">
-            <label for="salaryInput" class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Prior Year Dollar Amount</label>
-            <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium">e.g. prior year salary</span>
+            <label for="salaryInput" class="text-xs font-bold uppercase tracking-wider theme-muted">Prior Year Dollar Amount</label>
+            <span class="text-[11px] theme-dim font-medium">e.g. baseline salary</span>
           </div>
           
           <!-- Input field with currency symbol -->
           <div class="relative mt-2">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-semibold text-xl">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none theme-muted font-semibold text-xl">
               $
             </div>
             <input 
@@ -178,47 +272,47 @@ An interactive inflation adjustment calculator designed to show you how inflatio
               id="salaryInput" 
               value="85,000" 
               inputmode="numeric"
-              class="w-full pl-9 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700/80 rounded-xl text-2xl font-bold font-mono text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition shadow-inner"
+              class="w-full pl-9 pr-4 py-3.5 theme-input border rounded-xl text-2xl font-bold font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition shadow-inner"
               placeholder="0"
             />
           </div>
 
           <!-- Quick presets for dollar amount -->
           <div class="mt-4 flex flex-wrap items-center gap-2">
-            <span class="text-xs text-slate-500">Presets:</span>
-            <button type="button" class="preset-salary text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-value="50000">$50k</button>
-            <button type="button" class="preset-salary text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-value="75000">$75k</button>
-            <button type="button" class="preset-salary text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-600 dark:text-sky-300 border transition font-mono active" data-value="85000">$85k</button>
-            <button type="button" class="preset-salary text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-value="100000">$100k</button>
-            <button type="button" class="preset-salary text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-value="150000">$150k</button>
+            <span class="text-xs theme-dim">Presets:</span>
+            <button type="button" class="preset-salary theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-value="50000">$50k</button>
+            <button type="button" class="preset-salary theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-value="75000">$75k</button>
+            <button type="button" class="preset-salary text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-400 border transition font-mono active font-semibold" data-value="85000">$85k</button>
+            <button type="button" class="preset-salary theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-value="100000">$100k</button>
+            <button type="button" class="preset-salary theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-value="150000">$150k</button>
           </div>
         </div>
 
         <!-- Frequency selector (Annual vs Monthly vs Bi-Weekly) -->
-        <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
-          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Display Breakdown:</span>
-          <div class="inline-flex rounded-lg bg-slate-100 dark:bg-slate-950 p-1 border border-slate-200 dark:border-slate-800" role="group">
-            <button type="button" id="freqAnnual" class="freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-white dark:text-slate-950 transition shadow">Annual</button>
-            <button type="button" id="freqMonthly" class="freq-btn text-xs px-3 py-1 rounded-md font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Monthly</button>
-            <button type="button" id="freqBiweekly" class="freq-btn text-xs px-3 py-1 rounded-md font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Bi-weekly</button>
+        <div class="mt-6 pt-5 border-t border-inherit flex items-center justify-between">
+          <span class="text-xs theme-muted font-medium">Display Breakdown:</span>
+          <div class="inline-flex rounded-lg theme-subcard p-1 border" role="group">
+            <button type="button" id="freqAnnual" class="freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-slate-950 transition shadow">Annual</button>
+            <button type="button" id="freqMonthly" class="freq-btn text-xs px-3 py-1 rounded-md font-medium theme-muted hover:text-white transition">Monthly</button>
+            <button type="button" id="freqBiweekly" class="freq-btn text-xs px-3 py-1 rounded-md font-medium theme-muted hover:text-white transition">Bi-weekly</button>
           </div>
         </div>
       </div>
 
       <!-- Input Card 2: Inflation Rate Slider -->
-      <div class="lg:col-span-7 bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-md dark:shadow-xl backdrop-blur-sm flex flex-col justify-between transition-colors duration-300">
+      <div class="lg:col-span-7 theme-card border rounded-2xl p-6 shadow-xl backdrop-blur-sm flex flex-col justify-between transition-colors duration-200">
         <div>
           <div class="flex items-center justify-between mb-2">
             <div>
-              <label for="inflationSlider" class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Annual Inflation Rate</label>
-              <div class="text-[11px] text-slate-400 dark:text-slate-500 font-medium">Slide to adjust annual cost-of-living increase</div>
+              <label for="inflationSlider" class="text-xs font-bold uppercase tracking-wider theme-muted">Annual Inflation Rate</label>
+              <div class="text-[11px] theme-dim font-medium">Slide to adjust annual cost-of-living increase</div>
             </div>
             <!-- Live numeric badge -->
             <div class="flex items-center space-x-2">
-              <div id="rateBadge" class="px-2.5 py-1 rounded-lg text-xs font-medium border bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20">
+              <div id="rateBadge" class="px-2.5 py-1 rounded-lg text-xs font-medium border bg-amber-500/10 text-amber-400 border-amber-500/20">
                 Moderate Inflation
               </div>
-              <div class="flex items-center bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 shadow-inner">
+              <div class="flex items-center theme-input border rounded-xl px-3 py-1.5 shadow-inner">
                 <input 
                   type="number" 
                   id="inflationNumber" 
@@ -226,9 +320,9 @@ An interactive inflation adjustment calculator designed to show you how inflatio
                   min="0" 
                   max="20" 
                   step="0.1"
-                  class="w-16 bg-transparent text-right font-mono font-bold text-xl text-sky-600 dark:text-sky-400 focus:outline-none"
+                  class="w-16 bg-transparent text-right font-mono font-bold text-xl text-sky-400 focus:outline-none"
                 />
-                <span class="text-sky-600 dark:text-sky-400 font-bold ml-0.5">%</span>
+                <span class="text-sky-400 font-bold ml-0.5">%</span>
               </div>
             </div>
           </div>
@@ -247,7 +341,7 @@ An interactive inflation adjustment calculator designed to show you how inflatio
               />
             </div>
             <!-- Slider scale indicators -->
-            <div class="flex justify-between text-[11px] font-mono text-slate-400 dark:text-slate-500 mt-2 px-1">
+            <div class="flex justify-between text-[11px] font-mono theme-dim mt-2 px-1">
               <span>0%</span>
               <span>3%</span>
               <span>6%</span>
@@ -259,26 +353,26 @@ An interactive inflation adjustment calculator designed to show you how inflatio
 
           <!-- Inflation Benchmarks Quick Select -->
           <div class="mt-4 flex flex-wrap items-center gap-2">
-            <span class="text-xs text-slate-500">Benchmarks:</span>
-            <button type="button" class="preset-rate text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-rate="2.0">2.0% Fed Target</button>
-            <button type="button" class="preset-rate text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-rate="3.1">3.1% Long-Term Avg</button>
-            <button type="button" class="preset-rate text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-600 dark:text-sky-300 border transition font-mono active" data-rate="4.5">4.5% Current Rate</button>
-            <button type="button" class="preset-rate text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-rate="7.0">7.0% High Surge</button>
-            <button type="button" class="preset-rate text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono" data-rate="9.1">9.1% 2022 Peak</button>
+            <span class="text-xs theme-dim">Benchmarks:</span>
+            <button type="button" class="preset-rate theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-rate="2.0">2.0% Fed Target</button>
+            <button type="button" class="preset-rate theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-rate="3.1">3.1% Long-Term Avg</button>
+            <button type="button" class="preset-rate text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-400 border transition font-mono active font-semibold" data-rate="4.5">4.5% Current Rate</button>
+            <button type="button" class="preset-rate theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-rate="7.0">7.0% High Surge</button>
+            <button type="button" class="preset-rate theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono" data-rate="9.1">9.1% 2022 Peak</button>
           </div>
         </div>
 
         <!-- Compounding Method Setting -->
-        <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between text-xs">
-          <div class="flex items-center space-x-1.5 text-slate-500 dark:text-slate-400">
+        <div class="mt-6 pt-5 border-t border-inherit flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-1.5 theme-muted">
             <span class="font-medium">Beating Inflation Formula:</span>
-            <span id="formulaTooltip" title="Compounded calculates true purchasing power gain: Base × (1 + inflation) × (1 + real_growth). Additive does: Base × (1 + inflation + growth)." class="cursor-help text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+            <span id="formulaTooltip" title="Compounded calculates true real purchasing power gain: Base × (1 + inflation) × (1 + real_growth). Additive does: Base × (1 + inflation + growth)." class="cursor-help theme-dim hover:text-white">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </span>
           </div>
-          <div class="inline-flex rounded-lg bg-slate-100 dark:bg-slate-950 p-1 border border-slate-200 dark:border-slate-800" role="group">
-            <button type="button" id="calcCompounded" class="calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium bg-sky-500 text-white dark:text-slate-950 transition">Compounded Real</button>
-            <button type="button" id="calcAdditive" class="calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Additive</button>
+          <div class="inline-flex rounded-lg theme-subcard p-1 border" role="group">
+            <button type="button" id="calcCompounded" class="calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium bg-sky-500 text-slate-950 transition">Compounded Real</button>
+            <button type="button" id="calcAdditive" class="calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium theme-muted hover:text-white transition">Additive</button>
           </div>
         </div>
       </div>
@@ -289,92 +383,92 @@ An interactive inflation adjustment calculator designed to show you how inflatio
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
       <!-- Impact Card 1: What Your Dollar Is Worth At Present -->
-      <div class="relative overflow-hidden bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-900/90 dark:to-rose-950/20 border border-slate-200 dark:border-slate-800/90 rounded-2xl p-6 shadow-md dark:shadow-xl transition-colors duration-300">
+      <div style="background: var(--impact-devalue-bg);" class="relative overflow-hidden border theme-card rounded-2xl p-6 shadow-xl transition-all duration-200">
         <div class="flex items-start justify-between">
           <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
+            <span class="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>
               Purchasing Power Today
             </span>
-            <h3 class="text-slate-500 dark:text-slate-400 text-sm mt-1">If your dollar amount remained unadjusted</h3>
+            <h3 class="theme-muted text-sm mt-1">If your dollar amount remained unadjusted</h3>
           </div>
-          <span class="text-xs px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-600 dark:text-rose-300 border border-rose-500/20 font-mono font-medium" id="devaluePctBadge">
+          <span class="text-xs px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20 font-mono font-medium" id="devaluePctBadge">
             -4.31% purchasing power
           </span>
         </div>
 
         <div class="mt-6 flex items-baseline space-x-3">
-          <span id="currentRealValue" class="text-3xl sm:text-4xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight">$81,340</span>
-          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="currentPeriodLabel">real purchasing power</span>
+          <span id="currentRealValue" class="text-3xl sm:text-4xl font-extrabold font-mono theme-heading tracking-tight">$81,340</span>
+          <span class="text-xs theme-muted font-medium" id="currentPeriodLabel">real purchasing power</span>
         </div>
 
         <!-- Per Dollar Callout -->
-        <div class="mt-4 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+        <div class="mt-4 p-3.5 rounded-xl theme-subcard border flex items-center justify-between">
           <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-sm">
+            <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold text-sm">
               $1
             </div>
             <div>
-              <div class="text-xs text-slate-800 dark:text-slate-200 font-medium">Your $1.00 is currently worth:</div>
-              <div class="text-[11px] text-slate-500">In baseline buying power</div>
+              <div class="text-xs theme-heading font-medium">Your $1.00 is currently worth:</div>
+              <div class="text-[11px] theme-dim">In baseline buying power</div>
             </div>
           </div>
           <div class="text-right">
-            <span id="singleDollarValue" class="text-lg font-bold font-mono text-rose-600 dark:text-rose-300">$0.957</span>
-            <div id="dollarLoss" class="text-[11px] text-rose-500 dark:text-rose-400/80 font-mono">-$0.043 / dollar</div>
+            <span id="singleDollarValue" class="text-lg font-bold font-mono text-rose-400">$0.957</span>
+            <div id="dollarLoss" class="text-[11px] text-rose-400/80 font-mono">-$0.043 / dollar</div>
           </div>
         </div>
 
-        <div class="mt-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <div class="mt-4 flex items-center justify-between text-xs theme-muted">
           <span>Unrealized buying power eroded:</span>
-          <span id="totalLostPower" class="font-mono font-semibold text-rose-600 dark:text-rose-400">-$3,660</span>
+          <span id="totalLostPower" class="font-mono font-semibold text-rose-400">-$3,660</span>
         </div>
       </div>
 
       <!-- Impact Card 2: How Much You Need to Keep Pace -->
-      <div class="relative overflow-hidden bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-900/90 dark:to-sky-950/20 border border-slate-200 dark:border-slate-800/90 rounded-2xl p-6 shadow-md dark:shadow-xl transition-colors duration-300">
+      <div style="background: var(--impact-keep-bg);" class="relative overflow-hidden border theme-card rounded-2xl p-6 shadow-xl transition-all duration-200">
         <div class="flex items-start justify-between">
           <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400 flex items-center gap-1.5">
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
               To Keep Pace with Inflation
             </span>
-            <h3 class="text-slate-500 dark:text-slate-400 text-sm mt-1">Break-even target (0% real purchasing loss)</h3>
+            <h3 class="theme-muted text-sm mt-1">Break-even target (0% real purchasing loss)</h3>
           </div>
-          <span class="text-xs px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-300 border border-sky-500/20 font-mono font-medium" id="keepPacePctBadge">
+          <span class="text-xs px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20 font-mono font-medium" id="keepPacePctBadge">
             +4.50% required
           </span>
         </div>
 
         <div class="mt-6 flex items-baseline space-x-3">
-          <span id="keepPaceSalary" class="text-3xl sm:text-4xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight">$88,825</span>
-          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="keepPeriodLabel">target compensation</span>
+          <span id="keepPaceSalary" class="text-3xl sm:text-4xl font-extrabold font-mono theme-heading tracking-tight">$88,825</span>
+          <span class="text-xs theme-muted font-medium" id="keepPeriodLabel">target compensation</span>
         </div>
 
         <!-- Breakdown delta callout -->
-        <div class="mt-4 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+        <div class="mt-4 p-3.5 rounded-xl theme-subcard border flex items-center justify-between">
           <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-sm">
+            <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm">
               +$
             </div>
             <div>
-              <div class="text-xs text-slate-800 dark:text-slate-200 font-medium">Cost-of-Living Adjustment (COLA):</div>
-              <div class="text-[11px] text-slate-500">To maintain exact purchasing parity</div>
+              <div class="text-xs theme-heading font-medium">Cost-of-Living Adjustment (COLA):</div>
+              <div class="text-[11px] theme-dim">To maintain exact purchasing parity</div>
             </div>
           </div>
           <div class="text-right">
-            <span id="keepPaceRaise" class="text-lg font-bold font-mono text-sky-600 dark:text-sky-300">+$3,825</span>
-            <div id="keepPaceMonthly" class="text-[11px] text-sky-500 dark:text-sky-400/80 font-mono">+$318.75 / mo</div>
+            <span id="keepPaceRaise" class="text-lg font-bold font-mono text-sky-400">+$3,825</span>
+            <div id="keepPaceMonthly" class="text-[11px] text-sky-400/80 font-mono">+$318.75 / mo</div>
           </div>
         </div>
 
-        <div class="mt-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <div class="mt-4 flex items-center justify-between text-xs theme-muted">
           <span>Net real wealth change:</span>
-          <span class="font-mono font-semibold text-slate-600 dark:text-slate-300">$0.00 (Breakeven)</span>
+          <span class="font-mono font-semibold theme-muted">$0.00 (Breakeven)</span>
         </div>
       </div>
 
@@ -384,15 +478,15 @@ An interactive inflation adjustment calculator designed to show you how inflatio
     <div class="space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+          <h2 class="text-lg font-bold theme-heading tracking-tight flex items-center gap-2">
             Target Earnings to Beat Inflation
-            <span class="text-xs font-normal text-slate-500 dark:text-slate-400 font-sans">(Real Growth Milestones)</span>
+            <span class="text-xs font-normal theme-muted font-sans">(Real Growth Milestones)</span>
           </h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400">How much you need to earn to stay ahead of rising costs and increase real discretionary income.</p>
+          <p class="text-xs theme-muted">How much you need to earn to stay ahead of rising costs and increase real discretionary income.</p>
         </div>
         <div class="flex items-center space-x-2">
-          <button id="copySummaryBtn" type="button" class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 transition shadow-sm">
-            <svg class="w-3.5 h-3.5 text-sky-500 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button id="copySummaryBtn" type="button" class="theme-pill text-xs px-3 py-1.5 rounded-lg border flex items-center gap-1.5 transition shadow-sm">
+            <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
             </svg>
             <span id="copyBtnText">Copy Breakdown</span>
@@ -404,135 +498,135 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <!-- Tier 1: Beat by 3% -->
-        <div class="group relative bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 rounded-2xl p-5 shadow-md dark:shadow-lg transition-all duration-200 flex flex-col justify-between">
+        <div class="group relative theme-card border hover:border-emerald-500/50 rounded-2xl p-5 shadow-lg transition-all duration-200 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                 Beat by +3%
               </span>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/20 font-medium" id="tier3RateBadge">
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium" id="tier3RateBadge">
                 +7.64% total
               </span>
             </div>
             
             <div class="mt-4">
-              <div class="text-xs text-slate-500 dark:text-slate-400">Target Dollar Amount:</div>
-              <div id="tier3Salary" class="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white mt-1">$91,490</div>
+              <div class="text-xs theme-muted">Target Dollar Amount:</div>
+              <div id="tier3Salary" class="text-2xl sm:text-3xl font-extrabold font-mono theme-heading mt-1">$91,490</div>
             </div>
 
             <!-- Details list -->
-            <div class="mt-4 space-y-2 text-xs border-t border-slate-200 dark:border-slate-800/80 pt-3">
+            <div class="mt-4 space-y-2 text-xs border-t border-inherit pt-3">
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Total raise from base:</span>
-                <span id="tier3Raise" class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">+$6,490</span>
+                <span class="theme-muted">Total raise from base:</span>
+                <span id="tier3Raise" class="font-mono font-semibold text-emerald-400">+$6,490</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Surplus beyond inflation:</span>
-                <span id="tier3RealSurplus" class="font-mono text-slate-700 dark:text-slate-300">+$2,665</span>
+                <span class="theme-muted">Surplus beyond inflation:</span>
+                <span id="tier3RealSurplus" class="font-mono theme-heading">+$2,665</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Prorated addition:</span>
-                <span id="tier3Monthly" class="font-mono text-slate-700 dark:text-slate-300">+$540.83 / mo</span>
+                <span class="theme-muted">Prorated addition:</span>
+                <span id="tier3Monthly" class="font-mono theme-heading">+$540.83 / mo</span>
               </div>
             </div>
           </div>
 
-          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-slate-800/80">
-            <div class="text-[11px] text-slate-500 flex items-center justify-between">
+          <div class="mt-5 pt-3 border-t border-inherit">
+            <div class="text-[11px] theme-dim flex items-center justify-between">
               <span>Outcome</span>
-              <span class="text-slate-700 dark:text-slate-300 font-medium">Modest Real Growth</span>
+              <span class="theme-heading font-medium">Modest Real Growth</span>
             </div>
           </div>
         </div>
 
         <!-- Tier 2: Beat by 6% -->
-        <div class="group relative bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-900 border border-emerald-500/40 hover:border-emerald-500/70 rounded-2xl p-5 shadow-md dark:shadow-lg transition-all duration-200 flex flex-col justify-between ring-1 ring-emerald-500/30">
+        <div class="group relative theme-card border border-emerald-500/40 hover:border-emerald-500/70 rounded-2xl p-5 shadow-lg transition-all duration-200 flex flex-col justify-between ring-1 ring-emerald-500/30">
           <!-- Featured Badge -->
-          <div class="absolute -top-2.5 right-6 px-2.5 py-0.5 rounded-full bg-emerald-500 text-white dark:text-slate-950 font-bold text-[10px] tracking-wide uppercase shadow">
+          <div class="absolute -top-2.5 right-6 px-2.5 py-0.5 rounded-full bg-emerald-500 text-slate-950 font-bold text-[10px] tracking-wide uppercase shadow">
             Recommended Target
           </div>
 
           <div>
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                 Beat by +6%
               </span>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/20 font-medium" id="tier6RateBadge">
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium" id="tier6RateBadge">
                 +10.77% total
               </span>
             </div>
             
             <div class="mt-4">
-              <div class="text-xs text-slate-500 dark:text-slate-400">Target Dollar Amount:</div>
-              <div id="tier6Salary" class="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white mt-1">$94,155</div>
+              <div class="text-xs theme-muted">Target Dollar Amount:</div>
+              <div id="tier6Salary" class="text-2xl sm:text-3xl font-extrabold font-mono theme-heading mt-1">$94,155</div>
             </div>
 
             <!-- Details list -->
-            <div class="mt-4 space-y-2 text-xs border-t border-slate-200 dark:border-slate-800/80 pt-3">
+            <div class="mt-4 space-y-2 text-xs border-t border-inherit pt-3">
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Total raise from base:</span>
-                <span id="tier6Raise" class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">+$9,155</span>
+                <span class="theme-muted">Total raise from base:</span>
+                <span id="tier6Raise" class="font-mono font-semibold text-emerald-400">+$9,155</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Surplus beyond inflation:</span>
-                <span id="tier6RealSurplus" class="font-mono text-slate-700 dark:text-slate-300">+$5,330</span>
+                <span class="theme-muted">Surplus beyond inflation:</span>
+                <span id="tier6RealSurplus" class="font-mono theme-heading">+$5,330</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Prorated addition:</span>
-                <span id="tier6Monthly" class="font-mono text-slate-700 dark:text-slate-300">+$762.88 / mo</span>
+                <span class="theme-muted">Prorated addition:</span>
+                <span id="tier6Monthly" class="font-mono theme-heading">+$762.88 / mo</span>
               </div>
             </div>
           </div>
 
-          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-slate-800/80">
-            <div class="text-[11px] text-slate-500 flex items-center justify-between">
+          <div class="mt-5 pt-3 border-t border-inherit">
+            <div class="text-[11px] theme-dim flex items-center justify-between">
               <span>Outcome</span>
-              <span class="text-emerald-600 dark:text-emerald-400 font-semibold">Strong Career Step</span>
+              <span class="text-emerald-400 font-semibold">Strong Career Step</span>
             </div>
           </div>
         </div>
 
         <!-- Tier 3: Beat by 9% -->
-        <div class="group relative bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 rounded-2xl p-5 shadow-md dark:shadow-lg transition-all duration-200 flex flex-col justify-between">
+        <div class="group relative theme-card border hover:border-emerald-500/50 rounded-2xl p-5 shadow-lg transition-all duration-200 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                 Beat by +9%
               </span>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/20 font-medium" id="tier9RateBadge">
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium" id="tier9RateBadge">
                 +13.91% total
               </span>
             </div>
             
             <div class="mt-4">
-              <div class="text-xs text-slate-500 dark:text-slate-400">Target Dollar Amount:</div>
-              <div id="tier9Salary" class="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white mt-1">$96,819</div>
+              <div class="text-xs theme-muted">Target Dollar Amount:</div>
+              <div id="tier9Salary" class="text-2xl sm:text-3xl font-extrabold font-mono theme-heading mt-1">$96,819</div>
             </div>
 
             <!-- Details list -->
-            <div class="mt-4 space-y-2 text-xs border-t border-slate-200 dark:border-slate-800/80 pt-3">
+            <div class="mt-4 space-y-2 text-xs border-t border-inherit pt-3">
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Total raise from base:</span>
-                <span id="tier9Raise" class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">+$11,819</span>
+                <span class="theme-muted">Total raise from base:</span>
+                <span id="tier9Raise" class="font-mono font-semibold text-emerald-400">+$11,819</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Surplus beyond inflation:</span>
-                <span id="tier9RealSurplus" class="font-mono text-slate-700 dark:text-slate-300">+$7,994</span>
+                <span class="theme-muted">Surplus beyond inflation:</span>
+                <span id="tier9RealSurplus" class="font-mono theme-heading">+$7,994</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-500 dark:text-slate-400">Prorated addition:</span>
-                <span id="tier9Monthly" class="font-mono text-slate-700 dark:text-slate-300">+$984.94 / mo</span>
+                <span class="theme-muted">Prorated addition:</span>
+                <span id="tier9Monthly" class="font-mono theme-heading">+$984.94 / mo</span>
               </div>
             </div>
           </div>
 
-          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-slate-800/80">
-            <div class="text-[11px] text-slate-500 flex items-center justify-between">
+          <div class="mt-5 pt-3 border-t border-inherit">
+            <div class="text-[11px] theme-dim flex items-center justify-between">
               <span>Outcome</span>
-              <span class="text-slate-700 dark:text-slate-300 font-medium">Aggressive Wealth Expansion</span>
+              <span class="theme-heading font-medium">Aggressive Wealth Expansion</span>
             </div>
           </div>
         </div>
@@ -541,13 +635,13 @@ An interactive inflation adjustment calculator designed to show you how inflatio
     </div>
 
     <!-- Visual Interactive Comparison Ladder -->
-    <div class="bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-md dark:shadow-xl backdrop-blur-sm transition-colors duration-300">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800 gap-2">
+    <div class="theme-card border rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-colors duration-200">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-inherit gap-2">
         <div>
-          <h3 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight">Compensation Ladder Visualizer</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Relative scale comparing present eroded purchasing power vs baseline vs target milestones</p>
+          <h3 class="text-sm font-bold theme-heading tracking-tight">Compensation Ladder Visualizer</h3>
+          <p class="text-xs theme-muted">Relative scale comparing present eroded purchasing power vs baseline vs target milestones</p>
         </div>
-        <div class="text-xs font-mono text-slate-500 dark:text-slate-400" id="ladderBaseLabel">
+        <div class="text-xs font-mono theme-muted" id="ladderBaseLabel">
           Baseline: $85,000
         </div>
       </div>
@@ -558,13 +652,13 @@ An interactive inflation adjustment calculator designed to show you how inflatio
         <!-- Bar 1: Eroded Purchasing Power -->
         <div>
           <div class="flex justify-between text-xs mb-1.5">
-            <span class="text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1.5">
+            <span class="theme-muted font-medium flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-sm bg-rose-500"></span>
               Present Value (Eroded)
             </span>
-            <span id="barLabelEroded" class="font-mono text-rose-600 dark:text-rose-400 font-semibold">$81,340 (-4.3%)</span>
+            <span id="barLabelEroded" class="font-mono text-rose-400 font-semibold">$81,340 (-4.3%)</span>
           </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-950 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
+          <div class="w-full theme-subcard h-3.5 rounded-full overflow-hidden p-0.5 border">
             <div id="barEroded" class="h-full bg-rose-500/80 rounded-full transition-all duration-300" style="width: 75%;"></div>
           </div>
         </div>
@@ -572,27 +666,27 @@ An interactive inflation adjustment calculator designed to show you how inflatio
         <!-- Bar 2: Base Salary -->
         <div>
           <div class="flex justify-between text-xs mb-1.5">
-            <span class="text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1.5">
+            <span class="theme-muted font-medium flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-sm bg-slate-400"></span>
               Prior Year Baseline
             </span>
-            <span id="barLabelBase" class="font-mono text-slate-700 dark:text-slate-300 font-semibold">$85,000 (100%)</span>
+            <span id="barLabelBase" class="font-mono theme-heading font-semibold">$85,000 (100%)</span>
           </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-950 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
-            <div id="barBase" class="h-full bg-slate-400 dark:bg-slate-500/80 rounded-full transition-all duration-300" style="width: 80%;"></div>
+          <div class="w-full theme-subcard h-3.5 rounded-full overflow-hidden p-0.5 border">
+            <div id="barBase" class="h-full bg-slate-400/80 rounded-full transition-all duration-300" style="width: 80%;"></div>
           </div>
         </div>
 
         <!-- Bar 3: Keep Pace -->
         <div>
           <div class="flex justify-between text-xs mb-1.5">
-            <span class="text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1.5">
+            <span class="theme-muted font-medium flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-sm bg-sky-500"></span>
               Keep Pace with Inflation
             </span>
-            <span id="barLabelKeep" class="font-mono text-sky-600 dark:text-sky-400 font-semibold">$88,825 (+4.5%)</span>
+            <span id="barLabelKeep" class="font-mono text-sky-400 font-semibold">$88,825 (+4.5%)</span>
           </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-950 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
+          <div class="w-full theme-subcard h-3.5 rounded-full overflow-hidden p-0.5 border">
             <div id="barKeep" class="h-full bg-sky-500/80 rounded-full transition-all duration-300" style="width: 85%;"></div>
           </div>
         </div>
@@ -600,13 +694,13 @@ An interactive inflation adjustment calculator designed to show you how inflatio
         <!-- Bar 4: Beat by 3% -->
         <div>
           <div class="flex justify-between text-xs mb-1.5">
-            <span class="text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1.5">
+            <span class="theme-muted font-medium flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
               Beat by +3%
             </span>
-            <span id="barLabelBeat3" class="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">$91,490 (+7.6%)</span>
+            <span id="barLabelBeat3" class="font-mono text-emerald-400 font-semibold">$91,490 (+7.6%)</span>
           </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-950 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
+          <div class="w-full theme-subcard h-3.5 rounded-full overflow-hidden p-0.5 border">
             <div id="barBeat3" class="h-full bg-emerald-500/80 rounded-full transition-all duration-300" style="width: 90%;"></div>
           </div>
         </div>
@@ -614,28 +708,28 @@ An interactive inflation adjustment calculator designed to show you how inflatio
         <!-- Bar 5: Beat by 6% -->
         <div>
           <div class="flex justify-between text-xs mb-1.5">
-            <span class="text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1.5">
+            <span class="theme-muted font-medium flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-sm bg-emerald-400"></span>
               Beat by +6%
             </span>
-            <span id="barLabelBeat6" class="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">$94,155 (+10.8%)</span>
+            <span id="barLabelBeat6" class="font-mono text-emerald-400 font-semibold">$94,155 (+10.8%)</span>
           </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-950 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
-            <div id="barBeat6" class="h-full bg-emerald-500 dark:bg-emerald-400/90 rounded-full transition-all duration-300" style="width: 95%;"></div>
+          <div class="w-full theme-subcard h-3.5 rounded-full overflow-hidden p-0.5 border">
+            <div id="barBeat6" class="h-full bg-emerald-400/90 rounded-full transition-all duration-300" style="width: 95%;"></div>
           </div>
         </div>
 
         <!-- Bar 6: Beat by 9% -->
         <div>
           <div class="flex justify-between text-xs mb-1.5">
-            <span class="text-slate-600 dark:text-slate-400 font-medium flex items-center gap-1.5">
+            <span class="theme-muted font-medium flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-sm bg-emerald-300"></span>
               Beat by +9%
             </span>
-            <span id="barLabelBeat9" class="font-mono text-emerald-600 dark:text-emerald-300 font-semibold">$96,819 (+13.9%)</span>
+            <span id="barLabelBeat9" class="font-mono text-emerald-300 font-semibold">$96,819 (+13.9%)</span>
           </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-950 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
-            <div id="barBeat9" class="h-full bg-emerald-400 dark:bg-emerald-300 rounded-full transition-all duration-300" style="width: 100%;"></div>
+          <div class="w-full theme-subcard h-3.5 rounded-full overflow-hidden p-0.5 border">
+            <div id="barBeat9" class="h-full bg-emerald-300 rounded-full transition-all duration-300" style="width: 100%;"></div>
           </div>
         </div>
 
@@ -643,17 +737,17 @@ An interactive inflation adjustment calculator designed to show you how inflatio
     </div>
 
     <!-- Quick Negotiation / Practical Tips Accordion -->
-    <div class="border border-slate-200 dark:border-slate-800/80 rounded-xl bg-white dark:bg-slate-900/40 p-4 text-xs text-slate-500 dark:text-slate-400 space-y-2 transition-colors duration-300">
+    <div class="border theme-card rounded-xl p-4 text-xs theme-muted space-y-2 transition-colors duration-200">
       <div class="flex items-center justify-between cursor-pointer select-none" id="toggleTipsBtn">
-        <span class="font-semibold text-slate-800 dark:text-slate-300 flex items-center gap-2">
-          <svg class="w-4 h-4 text-sky-500 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span class="font-semibold theme-heading flex items-center gap-2">
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           How to use these numbers in salary reviews & negotiations
         </span>
-        <svg id="tipsChevron" class="w-4 h-4 text-slate-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        <svg id="tipsChevron" class="w-4 h-4 theme-dim transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
       </div>
-      <div id="tipsContent" class="hidden pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2 leading-relaxed text-slate-600 dark:text-slate-400">
-        <p><strong class="text-slate-800 dark:text-slate-200">Cost-of-Living Adjustment (COLA):</strong> A raise equal to inflation (<span class="font-mono text-sky-600 dark:text-sky-400 font-semibold" id="tipInflationRate">4.5%</span>) is not a merit increase. It merely preserves your original purchasing power so you do not experience a real-dollar pay cut.</p>
-        <p><strong class="text-slate-800 dark:text-slate-200">Merit Growth:</strong> True career progress requires an increase <em>above</em> the inflation baseline. Aiming for the <span class="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">+6% tier</span> secures genuine wealth accumulation and protects your future savings.</p>
+      <div id="tipsContent" class="hidden pt-3 border-t border-inherit space-y-2 leading-relaxed">
+        <p><strong class="theme-heading">Cost-of-Living Adjustment (COLA):</strong> A raise equal to inflation (<span class="font-mono text-sky-400 font-semibold" id="tipInflationRate">4.5%</span>) is not a merit increase. It merely preserves your original purchasing power so you do not experience a real-dollar pay cut.</p>
+        <p><strong class="theme-heading">Merit Growth:</strong> True career progress requires an increase <em>above</em> the inflation baseline. Aiming for the <span class="font-mono text-emerald-400 font-semibold">+6% tier</span> secures genuine wealth accumulation and protects your future savings.</p>
       </div>
     </div>
 
@@ -666,7 +760,7 @@ An interactive inflation adjustment calculator designed to show you how inflatio
   </div>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 dark:border-slate-800/60 py-6 text-center text-xs text-slate-400 dark:text-slate-500 transition-colors duration-300">
+  <footer class="border-t theme-header py-6 text-center text-xs theme-dim transition-colors duration-200">
     <p>InflationScope &bull; Sleek, interactive inflation and salary growth modeling</p>
   </footer>
 
@@ -679,6 +773,28 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       let isCompounded = true; // true: Base * (1+r) * (1+g), false: Base * (1+r+g)
       let frequency = 'annual'; // 'annual', 'monthly', 'biweekly'
       let isDark = true;
+
+      // Safe local storage retrieval
+      try {
+        const savedTheme = localStorage.getItem('inflationscope_theme');
+        if (savedTheme === 'light') {
+          isDark = false;
+        }
+      } catch (e) {}
+
+      // Apply initial theme
+      const htmlEl = document.documentElement;
+      const moonIcon = document.getElementById('moonIcon');
+      const sunIcon = document.getElementById('sunIcon');
+      if (isDark) {
+        htmlEl.classList.add('dark');
+        moonIcon.classList.remove('hidden');
+        sunIcon.classList.add('hidden');
+      } else {
+        htmlEl.classList.remove('dark');
+        moonIcon.classList.add('hidden');
+        sunIcon.classList.remove('hidden');
+      }
 
       // DOM Elements
       const salaryInput = document.getElementById('salaryInput');
@@ -744,8 +860,6 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       const copyBtnText = document.getElementById('copyBtnText');
       const resetBtn = document.getElementById('resetBtn');
       const themeToggleBtn = document.getElementById('themeToggleBtn');
-      const moonIcon = document.getElementById('moonIcon');
-      const sunIcon = document.getElementById('sunIcon');
       const toggleTipsBtn = document.getElementById('toggleTipsBtn');
       const tipsContent = document.getElementById('tipsContent');
       const tipsChevron = document.getElementById('tipsChevron');
@@ -773,8 +887,8 @@ An interactive inflation adjustment calculator designed to show you how inflatio
         const min = parseFloat(inflationSlider.min) || 0;
         const max = parseFloat(inflationSlider.max) || 15;
         const pct = Math.min(100, Math.max(0, ((val - min) / (max - min)) * 100));
-        const trackColor = isDark ? '#334155' : '#cbd5e1';
-        inflationSlider.style.background = `linear-gradient(to right, #38bdf8 0%, #38bdf8 ${pct}%, ${trackColor} ${pct}%, ${trackColor} 100%)`;
+        const trackBg = isDark ? '#334155' : '#cbd5e1';
+        inflationSlider.style.background = `linear-gradient(to right, #38bdf8 0%, #38bdf8 ${pct}%, ${trackBg} ${pct}%, ${trackBg} 100%)`;
       }
 
       // Show toast
@@ -794,16 +908,16 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       function updateRateBadge(r) {
         if (r <= 2.2) {
           rateBadge.textContent = 'Low / Target Inflation';
-          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
         } else if (r <= 4.0) {
           rateBadge.textContent = 'Moderate Inflation';
-          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20';
+          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-sky-500/10 text-sky-400 border-sky-500/20';
         } else if (r <= 6.5) {
           rateBadge.textContent = 'Elevated Inflation';
-          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
+          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-amber-500/10 text-amber-400 border-amber-500/20';
         } else {
           rateBadge.textContent = 'Severe Inflationary Pressure';
-          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20';
+          rateBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-medium border bg-rose-500/10 text-rose-400 border-rose-500/20';
         }
       }
 
@@ -942,9 +1056,9 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       document.querySelectorAll('.preset-salary').forEach(btn => {
         btn.addEventListener('click', function() {
           document.querySelectorAll('.preset-salary').forEach(b => {
-            b.className = 'preset-salary text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono';
+            b.className = 'preset-salary theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono';
           });
-          this.className = 'preset-salary text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-600 dark:text-sky-300 border transition font-mono active';
+          this.className = 'preset-salary text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-400 border transition font-mono active font-semibold';
           baseSalary = parseFloat(this.getAttribute('data-value'));
           salaryInput.value = baseSalary.toLocaleString('en-US');
           calculate();
@@ -972,9 +1086,9 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       document.querySelectorAll('.preset-rate').forEach(btn => {
         btn.addEventListener('click', function() {
           document.querySelectorAll('.preset-rate').forEach(b => {
-            b.className = 'preset-rate text-xs px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50 transition font-mono';
+            b.className = 'preset-rate theme-pill text-xs px-2.5 py-1 rounded-md border transition font-mono';
           });
-          this.className = 'preset-rate text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-600 dark:text-sky-300 border transition font-mono active';
+          this.className = 'preset-rate text-xs px-2.5 py-1 rounded-md bg-sky-500/20 border-sky-500/40 text-sky-400 border transition font-mono active font-semibold';
           const r = parseFloat(this.getAttribute('data-rate'));
           inflationRate = r;
           inflationSlider.value = Math.min(15, r);
@@ -1002,14 +1116,14 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       function setFrequency(freq) {
         frequency = freq;
         [freqAnnual, freqMonthly, freqBiweekly].forEach(btn => {
-          btn.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+          btn.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium theme-muted hover:text-white transition';
         });
         if (freq === 'annual') {
-          freqAnnual.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-white dark:text-slate-950 transition shadow';
+          freqAnnual.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-slate-950 transition shadow';
         } else if (freq === 'monthly') {
-          freqMonthly.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-white dark:text-slate-950 transition shadow';
+          freqMonthly.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-slate-950 transition shadow';
         } else if (freq === 'biweekly') {
-          freqBiweekly.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-white dark:text-slate-950 transition shadow';
+          freqBiweekly.className = 'freq-btn text-xs px-3 py-1 rounded-md font-medium bg-sky-500 text-slate-950 transition shadow';
         }
         calculate();
       }
@@ -1021,15 +1135,15 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       // Compounding method toggles
       calcCompounded.addEventListener('click', () => {
         isCompounded = true;
-        calcCompounded.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium bg-sky-500 text-white dark:text-slate-950 transition';
-        calcAdditive.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        calcCompounded.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium bg-sky-500 text-slate-950 transition';
+        calcAdditive.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium theme-muted hover:text-white transition';
         calculate();
       });
 
       calcAdditive.addEventListener('click', () => {
         isCompounded = false;
-        calcAdditive.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium bg-sky-500 text-white dark:text-slate-950 transition';
-        calcCompounded.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        calcAdditive.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium bg-sky-500 text-slate-950 transition';
+        calcCompounded.className = 'calc-btn text-[11px] px-2.5 py-1 rounded-md font-medium theme-muted hover:text-white transition';
         calculate();
       });
 
@@ -1101,15 +1215,16 @@ An interactive inflation adjustment calculator designed to show you how inflatio
       // Theme toggle (Dark / Light)
       themeToggleBtn.addEventListener('click', () => {
         isDark = !isDark;
-        const html = document.documentElement;
         if (isDark) {
-          html.classList.add('dark');
+          htmlEl.classList.add('dark');
           moonIcon.classList.remove('hidden');
           sunIcon.classList.add('hidden');
+          try { localStorage.setItem('inflationscope_theme', 'dark'); } catch (e) {}
         } else {
-          html.classList.remove('dark');
+          htmlEl.classList.remove('dark');
           moonIcon.classList.add('hidden');
           sunIcon.classList.remove('hidden');
+          try { localStorage.setItem('inflationscope_theme', 'light'); } catch (e) {}
         }
         updateSliderTrack(inflationRate);
       });
