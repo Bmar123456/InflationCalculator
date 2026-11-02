@@ -1,4 +1,4 @@
-# InflatonCalculator
+# InflationCalculator
 An interactive inflation adjustment calculator designed to show you how inflation impacts your paycheck.
 <!DOCTYPE html>
 <html lang="en" class="dark">
